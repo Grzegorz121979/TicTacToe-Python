@@ -25,10 +25,10 @@ class TicTacToe:
     def available_move(self) -> list[int]:
         return [i for i, spot in enumerate(self.board) if spot == ' ']
 
-    def empty_squares(self):
+    def empty_squares(self) -> bool:
         return ' ' in self.board
 
-    def make_move(self, square, letter):
+    def make_move(self, square, letter) -> bool:
         if self.board[square] == ' ':
             self.board[square] = letter
             if self.winner(square, letter):
@@ -36,7 +36,7 @@ class TicTacToe:
             return True
         return False
 
-    def winner(self, square, letter):
+    def winner(self, square, letter) -> bool:
         row_ind = square // 3
         row = self.board[row_ind * 3:(row_ind + 1) * 3]
         if all([spot == letter for spot in row]):
