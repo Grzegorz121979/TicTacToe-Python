@@ -8,7 +8,7 @@ class TicTacToe:
         self.board = [' ' for _ in range(9)]
         self.current_winner = None
 
-    def print_board(self):
+    def print_board(self) -> None:
         """
         function print board
         :return: None
