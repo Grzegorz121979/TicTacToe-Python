@@ -1,3 +1,4 @@
+import math
 import random
 
 
@@ -36,10 +37,10 @@ class HumanPlayer(Player):
 class GeniusComputerPlayer(Player):
 
     def get_move(self, game):
-        if len(game.available_move() == 9):
+        if len(game.available_move()) == 9:
             square = random.choice(game.available_move())
         else:
-            square = self.minimax(game, self.letter)
+            square = self.minimax(game, self.letter)['position']
         return square
 
     def minimax(self, state, player):
@@ -48,8 +49,29 @@ class GeniusComputerPlayer(Player):
 
         if state.current_winner == other_player:
             return {'position': None,
-                    'score': 1 * (state.num_empty_square() + 1) if other_player == max_player else -1 * (
-                            state.num_empty_square() + 1)
+                    'score': 1 * (state.num_empty_squares() + 1) if other_player == max_player else - 1 * (
+                            state.num_empty_squares() + 1)
                     }
         elif not state.empty_squares():
             return {'position': None, 'score': 0}
+
+        if player == max_player:
+            best = {'position': None, 'score': -math.inf}
+        else:
+            best = {'position': None, 'score': math.inf}
+
+        for possible_move in state.available_move():
+            state.make_move(possible_move, player)
+            sim_score = self.minimax(state, other_player)
+            state.board[possible_move] = ' '
+            state.current_winner = None
+            sim_score['position'] = possible_move
+
+            if player == max_player:
+                if sim_score['score'] > best['score']:
+                    best = sim_score
+            else:
+                if sim_score['score'] < best['score']:
+                    best = sim_score
+
+        return best

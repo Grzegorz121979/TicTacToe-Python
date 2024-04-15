@@ -1,6 +1,6 @@
 import time
 
-from player import HumanPlayer, RandomComputerPlayer
+from player import HumanPlayer, RandomComputerPlayer, GeniusComputerPlayer
 
 
 class TicTacToe:
@@ -27,6 +27,9 @@ class TicTacToe:
 
     def empty_squares(self) -> bool:
         return ' ' in self.board
+
+    def num_empty_squares(self) -> int:
+        return len(self.available_move())
 
     def make_move(self, square, letter) -> bool:
         if self.board[square] == ' ':
@@ -89,6 +92,7 @@ def play(game, x_player, o_player, print_game=True):
 
 if __name__ == '__main__':
     x_human_player = HumanPlayer('X')
-    o_computer_player = RandomComputerPlayer('O')
+    # o_computer_player = RandomComputerPlayer('O')
+    o_computer_player = GeniusComputerPlayer('O')
     t = TicTacToe()
     play(t, x_human_player, o_computer_player, print_game=True)
